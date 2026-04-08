@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Светлана · Сториборд + CJM · Авито</title>
+<style>
+:root {
+  --bg: #F4F3EF;
+  --surface: #FFFFFF;
+  --surface2: #F0EFE9;
+  --surface3: #E8E7E0;
+  --text: #1C1B18;
+  --text2: #5A5955;
+  --text3: #9A9890;
+  --border: rgba(0,0,0,0.09);
+  --border2: rgba(0,0,0,0.16);
+  --green-bg: #E8F5EC; --green-fg: #1E6B32; --green-bd: #B6DFC0;
+  --red-bg: #FAECE7;   --red-fg:  #8B3218; --red-bd:  #F0C4B4;
+  --amber-bg:#FAEEDA;  --amber-fg:#7A4808; --amber-bd:#F5C87A;
+  --blue-bg: #E6F1FB;  --blue-fg: #185FA5; --blue-bd: #B5D4F4;
+  --purple-bg:#EEEDFE; --purple-fg:#3C3489;--purple-bd:#CECBF6;
+  --r-sm:8px; --r-md:12px; --r-lg:16px;
+  --font: -apple-system,"Helvetica Neue",Arial,sans-serif;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#131312; --surface:#1E1E1C; --surface2:#262623; --surface3:#2D2D2A;
+    --text:#EEECEA; --text2:#A09E99; --text3:#6A6865;
+    --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.14);
+    --green-bg:#0D2416;--green-fg:#72D491;--green-bd:#1E4D28;
+    --red-bg:#2E1A14;--red-fg:#F4A080;--red-bd:#5A2A1A;
+    --amber-bg:#2E1E04;--amber-fg:#F5C87A;--amber-bd:#5A3A0A;
+    --blue-bg:#0C2A48;--blue-fg:#7EC2F8;--blue-bd:#1A4870;
+    --purple-bg:#1A1640;--purple-fg:#B8ADEE;--purple-bd:#352B60;
+  }
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:2.5rem 1.5rem 5rem}
+
+/* NAV */
+.page-nav{display:flex;gap:6px;margin-bottom:2.5rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.pnav-btn{padding:6px 16px;border-radius:20px;border:1px solid var(--border);background:var(--surface);cursor:pointer;font-size:13px;font-weight:500;color:var(--text2);transition:all .15s;font-family:var(--font)}
+.pnav-btn:hover{border-color:var(--border2);color:var(--text)}
+.pnav-btn.on{background:var(--text);color:var(--surface);border-color:transparent}
+
+/* HEADER */
+.pg-header{margin-bottom:2rem}
+.eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:.5rem}
+.eyebrow-dot{width:6px;height:6px;border-radius:50%;background:#00AAFF;display:inline-block}
+.pg-title{font-size:22px;font-weight:600;letter-spacing:-.02em;color:var(--text);margin-bottom:.3rem}
+.pg-sub{font-size:13px;color:var(--text2)}
+
+/* PERSONA STRIP */
+.persona-strip{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:1rem 1.25rem;margin-bottom:2rem}
+.av{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;background:var(--green-bg);color:var(--green-fg);border:1px solid var(--green-bd)}
+.ps-name{font-size:15px;font-weight:600;color:var(--text)}
+.ps-role{font-size:12px;color:var(--text2);margin-top:1px}
+.ps-quote{font-size:13px;color:var(--text2);font-style:italic;border-left:2px solid var(--border2);padding-left:10px;margin-left:auto;max-width:420px;line-height:1.5}
+
+/* SECTION HEADING */
+.sec-head{display:flex;align-items:baseline;gap:10px;margin-bottom:1.25rem}
+.sec-num{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:2px 10px}
+.sec-title{font-size:17px;font-weight:600;color:var(--text);letter-spacing:-.01em}
+.sec-def{font-size:12.5px;color:var(--text2);margin-bottom:1.5rem;line-height:1.6;max-width:680px}
+
+/* ══════════ STORYBOARD ══════════ */
+.sb-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:.5rem}
+@media(max-width:700px){.sb-grid{grid-template-columns:repeat(2,1fr)}}
+.sb-frame{background:var(--surface);display:flex;flex-direction:column}
+.sb-scene{height:130px;background:var(--surface2);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.sb-scene svg{width:100%;height:100%}
+.sb-body{padding:.75rem .9rem .9rem;flex:1;display:flex;flex-direction:column;gap:6px}
+.sb-step{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3)}
+.sb-action{font-size:12.5px;font-weight:600;color:var(--text);line-height:1.4}
+.sb-caption{font-size:11.5px;color:var(--text2);line-height:1.5;flex:1}
+.sb-tag{font-size:10.5px;font-weight:500;padding:2px 8px;border-radius:20px;border:1px solid transparent;display:inline-block;margin-top:auto}
+.t-ok{background:var(--green-bg);color:var(--green-fg);border-color:var(--green-bd)}
+.t-fr{background:var(--red-bg);color:var(--red-fg);border-color:var(--red-bd)}
+.t-em{background:var(--purple-bg);color:var(--purple-fg);border-color:var(--purple-bd)}
+.t-neu{background:var(--amber-bg);color:var(--amber-fg);border-color:var(--amber-bd)}
+
+.sb-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:1rem}
+@media(max-width:600px){.sb-meta{grid-template-columns:1fr}}
+.sb-meta-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:.6rem .8rem}
+.smi-lbl{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:3px}
+.smi-val{font-size:12.5px;color:var(--text);line-height:1.5}
+
+/* ══════════ CJM ══════════ */
+.cjm-wrap{overflow-x:auto;margin-bottom:1rem}
+.cjm-table{width:100%;border-collapse:collapse;min-width:760px}
+.cjm-table th,.cjm-table td{padding:0;vertical-align:top}
+
+/* column widths */
+.col-label{width:120px}
+.col-stage{width:calc((100% - 120px) / 7)}
+
+/* row label cell */
+.row-label{background:var(--surface3);padding:.55rem .7rem;font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text2);border:1px solid var(--border);line-height:1.4;vertical-align:middle}
+
+/* stage header */
+.stage-header{background:var(--surface2);padding:.5rem .6rem;font-size:11.5px;font-weight:600;color:var(--text);border:1px solid var(--border);line-height:1.35;text-align:center}
+.stage-num{font-size:10px;color:var(--text3);font-weight:400;display:block;margin-bottom:1px}
+
+/* regular cells */
+.cjm-cell{background:var(--surface);padding:.55rem .65rem;font-size:12px;color:var(--text2);border:1px solid var(--border);line-height:1.5;vertical-align:top}
+.cjm-cell p{margin:0 0 4px}
+.cjm-cell p:last-child{margin:0}
+
+/* emotion row */
+.emo-cell{background:var(--surface);padding:.5rem .65rem;border:1px solid var(--border);text-align:center;vertical-align:middle}
+.emo-dot{width:12px;height:12px;border-radius:50%;margin:0 auto 3px}
+.emo-label{font-size:11px;color:var(--text3)}
+
+/* pain / opportunity */
+.pain-cell{background:var(--red-bg);padding:.55rem .65rem;font-size:11.5px;color:var(--red-fg);border:1px solid var(--red-bd);line-height:1.5;vertical-align:top}
+.opp-cell{background:var(--green-bg);padding:.55rem .65rem;font-size:11.5px;color:var(--green-fg);border:1px solid var(--green-bd);line-height:1.5;vertical-align:top}
+.opp-cell strong,.pain-cell strong{font-weight:600;display:block;margin-bottom:2px}
+
+/* emotion curve */
+.curve-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:1rem 1.25rem;margin-top:1rem}
+.curve-lbl{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:.6rem}
+.curve-svg{width:100%;height:80px;display:block}
+
+/* legend */
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:1rem;font-size:12px;color:var(--text2)}
+.leg-item{display:flex;align-items:center;gap:6px}
+.leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+
+/* HIDDEN */
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HEADER -->
+<div class="pg-header">
+  <div class="eyebrow"><span class="eyebrow-dot"></span>UX Research · Alan Cooper · NN/g</div>
+  <h1 class="pg-title">Сториборд + Карта путешествия пользователя</h1>
+  <p class="pg-sub">Персона: Светлана Новикова · Сценарий: Покупка б/у стиральной машины через Авито</p>
+</div>
+
+<!-- NAV -->
+<nav class="page-nav">
+  <button class="pnav-btn on" onclick="showPage('sb')">Сториборд</button>
+  <button class="pnav-btn" onclick="showPage('cjm')">Карта путешествия (CJM)</button>
+</nav>
+
+<!-- PERSONA STRIP -->
+<div class="persona-strip">
+  <div class="av">СН</div>
+  <div>
+    <div class="ps-name">Светлана Новикова, 54 года</div>
+    <div class="ps-role">Краснодар · Учитель русского языка · Планшет / Safari</div>
+  </div>
+  <div class="ps-quote">"Хочу купить стиральную машину б/у, недорого. Боюсь, что меня обманут или я неправильно что-то нажму."</div>
+</div>
+
+<!-- ═══════════ STORYBOARD ═══════════ -->
+<div id="sb">
+  <div class="sec-head">
+    <span class="sec-num">01</span>
+    <span class="sec-title">Сториборд</span>
+  </div>
+  <p class="sec-def">Сториборд показывает ключевые моменты сценария в виде последовательности кадров — как комикс. Каждый кадр = одно значимое действие или эмоциональный перелом. По методологии NN/g: кадры должны отражать реальный контекст, эмоцию и барьер, а не просто шаги интерфейса.</p>
+
+  <div class="sb-grid">
+
+    <!-- Frame 1 -->
+    <div class="sb-frame">
+      <div class="sb-scene">
+        <svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
+          <!-- kitchen table -->
+          <rect x="20" y="90" width="160" height="8" rx="2" fill="#D3D1C7"/>
+          <rect x="30" y="98" width="6" height="28" rx="2" fill="#D3D1C7"/>
+          <rect x="164" y="98" width="6" height="28" rx="2" fill="#D3D1C7"/>
+          <!-- tablet -->
+          <rect x="60" y="52" width="80" height="54" rx="5" fill="#444441" opacity=".85"/>
+          <rect x="64" y="56" width="72" height="44" rx="3" fill="#E6F1FB"/>
+          <!-- screen content: broken washer icon -->
+          <rect x="80" y="62" width="40" height="32" rx="3" fill="#FFFFFF"/>
+          <path d="M90 80 L110 68 M90 68 L110 80" stroke="#E24B4A" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <rect x="88" y="77" width="24" height="14" rx="2" fill="none" stroke="#888780" stroke-width="1"/>
+          <!-- tea cup -->
+          <ellipse cx="160" cy="84" rx="12" ry="7" fill="#FAEEDA" stroke="#F5C87A" stroke-width="1"/>
+          <path d="M168 82 Q174 82 174 86 Q174 90 168 90" fill="none" stroke="#F5C87A" stroke-width="1.2"/>
+          <!-- steam -->
+          <path d="M156 72 Q154 67 156 63" fill="none" stroke="#B4B2A9" stroke-width="1" stroke-linecap="round"/>
+          <path d="M160 70 Q158 65 160 61" fill="none" stroke="#B4B2A9" stroke-width="1" stroke-linecap="round"/>
+          <!-- person silhouette (seated) -->
+          <circle cx="38" cy="60" r="9" fill="#B4B2A9"/>
+          <path d="M29 78 Q30 68 38 68 Q46 68 47 78" fill="#B4B2A9"/>
+          <path d="M47 78 L50 92" fill="none" stroke="#B4B2A9" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="sb-body">
+        <div class="sb-step">Кадр 1</div>
+        <div class="sb-action">Триггер: сломалась машина</div>
+        <div class="sb-caption">Воскресенье утром. Светлана на кухне с чаем, на планшете — поломка. Подруга посоветовала Авито.</div>
+        <span class="sb-tag t-neu">Тревога + надежда</span>
+      </div>
+    </div>
+
+    <!-- Frame 2 -->
+    <div class="sb-frame">
+      <div class="sb-scene">
+        <svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
+          <!-- tablet screen showing Avito search results -->
+          <rect x="30" y="15" width="140" height="100" rx="6" fill="#444441" opacity=".85"/>
+          <rect x="34" y="19" width="132" height="92" rx="4" fill="#FFFFFF"/>
+          <!-- search bar -->
+          <rect x="38" y="22" width="124" height="14" rx="7" fill="#F1EFE8" stroke="#D3D1C7" stroke-width=".5"/>
+          <text x="54" y="32" font-size="7" fill="#888780" font-family="Arial">стиральная машина б/у...</text>
+          <!-- 200+ result count -->
+          <text x="38" y="48" font-size="8" fill="#5A5955" font-family="Arial" font-weight="bold">200+ объявлений</text>
+          <!-- listing rows -->
+          <rect x="38" y="53" width="124" height="16" rx="2" fill="#F1EFE8"/>
+          <rect x="38" y="72" width="124" height="16" rx="2" fill="#F1EFE8"/>
+          <rect x="38" y="91" width="124" height="16" rx="2" fill="#F1EFE8"/>
+          <!-- filter button glow -->
+          <rect x="140" y="40" width="28" height="10" rx="5" fill="#E6F1FB" stroke="#185FA5" stroke-width=".8"/>
+          <text x="142" y="47.5" font-size="6.5" fill="#185FA5" font-family="Arial">Фильтры</text>
+          <!-- panic expression lines -->
+          <line x1="18" y1="30" x2="26" y2="38" stroke="#E24B4A" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="18" y1="38" x2="26" y2="30" stroke="#E24B4A" stroke-width="1.2" stroke-linecap="round"/>
+          <text x="8" y="62" font-size="7" fill="#E24B4A" font-family="Arial">Слишком</text>
+          <text x="8" y="71" font-size="7" fill="#E24B4A" font-family="Arial">много!</text>
+        </svg>
+      </div>
+      <div class="sb-body">
+        <div class="sb-step">Кадр 2</div>
+        <div class="sb-action">200 объявлений — паника</div>
+        <div class="sb-caption">Вводит запрос полностью. Видит 200+ позиций. Теряется. Муж подсказывает нажать «Фильтры». Вместе ставят ограничение по цене и городу.</div>
+        <span class="sb-tag t-fr">Точка трения: фильтры мелкие</span>
+      </div>
+    </div>
+
+    <!-- Frame 3 -->
+    <div class="sb-frame">
+      <div class="sb-scene">
+        <svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
+          <!-- tablet -->
+          <rect x="25" y="10" width="150" height="110" rx="6" fill="#444441" opacity=".85"/>
+          <rect x="29" y="14" width="142" height="102" rx="4" fill="#FFFFFF"/>
+          <!-- listing cards, one with delivery badge -->
+          <rect x="33" y="18" width="134" height="26" rx="3" fill="#F1EFE8"/>
+          <rect x="33" y="47" width="134" height="26" rx="3" fill="#F1EFE8"/>
+          <rect x="33" y="76" width="134" height="26" rx="3" fill="#E6F1FB" stroke="#185FA5" stroke-width=".8"/>
+          <!-- delivery badge on 3rd listing -->
+          <rect x="38" y="80" width="50" height="8" rx="4" fill="#185FA5"/>
+          <text x="40" y="86.5" font-size="5.5" fill="white" font-family="Arial">Авито Доставка</text>
+          <text x="38" y="97" font-size="7.5" fill="#1C1B18" font-family="Arial">6 500 ₽</text>
+          <!-- magnifying glass on badge -->
+          <circle cx="155" cy="87" r="8" fill="none" stroke="#185FA5" stroke-width="1.5"/>
+          <line x1="161" y1="93" x2="167" y2="99" stroke="#185FA5" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- thought bubble -->
+          <ellipse cx="30" cy="35" rx="18" ry="10" fill="#E6F1FB" stroke="#B5D4F4" stroke-width=".8"/>
+          <text x="17" y="37" font-size="6" fill="#185FA5" font-family="Arial">Надёжно?</text>
+          <circle cx="16" cy="46" r="2" fill="#B5D4F4"/>
+          <circle cx="13" cy="51" r="1.5" fill="#B5D4F4"/>
+        </svg>
+      </div>
+      <div class="sb-body">
+        <div class="sb-step">Кадр 3</div>
+        <div class="sb-action">Значок «Авито Доставка» = безопасность?</div>
+        <div class="sb-caption">34 результата. Светлана замечает голубой значок на некоторых объявлениях. Думает, что это знак надёжности продавца — а не логистики.</div>
+        <span class="sb-tag t-fr">Ложная ментальная модель</span>
+      </div>
+    </div>
+
+    <!-- Frame 4 -->
+    <div class="sb-frame">
+      <div class="sb-scene">
+        <svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
+          <!-- tablet with listing detail -->
+          <rect x="25" y="8" width="150" height="114" rx="6" fill="#444441" opacity=".85"/>
+          <rect x="29" y="12" width="142" height="106" rx="4" fill="#FFFFFF"/>
+          <!-- washer image placeholder -->
+          <rect x="33" y="16" width="60" height="50" rx="3" fill="#E8E7E0"/>
+          <rect x="50" y="28" width="26" height="26" rx="13" fill="#D3D1C7"/>
+          <circle cx="63" cy="41" r="8" fill="#B4B2A9"/>
+          <!-- price + rating -->
+          <text x="98" y="28" font-size="9" fill="#1C1B18" font-family="Arial" font-weight="bold">6 500 ₽</text>
+          <text x="98" y="40" font-size="7" fill="#5A5955" font-family="Arial">Рейтинг: 4.8</text>
+          <!-- stars -->
+          <text x="98" y="52" font-size="9" fill="#EF9F27" font-family="Arial">★★★★★</text>
+          <!-- reviews scroll -->
+          <rect x="33" y="70" width="134" height="9" rx="2" fill="#F1EFE8"/>
+          <rect x="33" y="82" width="134" height="9" rx="2" fill="#F1EFE8"/>
+          <rect x="33" y="94" width="100" height="9" rx="2" fill="#FAEEDA"/>
+          <!-- magnifier reading reviews -->
+          <text x="140" y="101" font-size="14" fill="#5A5955" font-family="Arial">👓</text>
+          <!-- timer / clock indicating slow careful reading -->
+          <circle cx="172" cy="30" r="12" fill="none" stroke="#D3D1C7" stroke-width="1.5"/>
+          <line x1="172" y1="22" x2="172" y2="30" stroke="#888780" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="172" y1="30" x2="178" y2="34" stroke="#888780" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="sb-body">
+        <div class="sb-step">Кадр 4</div>
+        <div class="sb-action">Читает все 12 отзывов</div>
+        <div class="sb-caption">Indesit 2019 г. за 6 500 ₽. Рейтинг 4.8. Светлана читает каждый отзыв. Один нейтральный настораживает — спрашивает мужа.</div>
+        <span class="sb-tag t-em">Педантичность = защита</span>
+      </div>
+    </div>
+
+    <!-- Frame 5 -->
+    <div class="sb-frame">
+      <div class="sb-scene">
+        <svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
+          <!-- chat bubble exchange -->
+          <!-- sent message (right) -->
+          <rect x="80" y="15" width="105" height="38" rx="10" fill="#185FA5"/>
+          <path d="M185 40 L192 50 L178 46" fill="#185FA5"/>
+          <text x="88" y="29" font-size="7" fill="white" font-family="Arial">Здравствуйте!</text>
+          <text x="88" y="39" font-size="7" fill="white" font-family="Arial">Машина продаётся?</text>
+          <!-- clock showing 40 min wait -->
+          <rect x="68" y="58" width="64" height="40" rx="8" fill="#FAEEDA" stroke="#F5C87A" stroke-width=".8"/>
+          <text x="80" y="73" font-size="8" fill="#7A4808" font-family="Arial" font-weight="bold">40 мин</text>
+          <text x="74" y="84" font-size="7" fill="#7A4808" font-family="Arial">ожидания...</text>
+          <!-- anxiety sweat drop -->
+          <ellipse cx="55" cy="62" rx="4" ry="6" fill="#B5D4F4" opacity=".7"/>
+          <ellipse cx="48" cy="70" rx="3" ry="5" fill="#B5D4F4" opacity=".5"/>
+          <!-- reply bubble (left) -->
+          <rect x="15" y="100" width="95" height="24" rx="8" fill="#E8E7E0"/>
+          <path d="M15 116 L8 124 L20 120" fill="#E8E7E0"/>
+          <text x="22" y="114" font-size="7" fill="#5A5955" font-family="Arial">Да, доставка 350 ₽</text>
+        </svg>
+      </div>
+      <div class="sb-body">
+        <div class="sb-step">Кадр 5</div>
+        <div class="sb-action">40 минут тишины в чате</div>
+        <div class="sb-caption">Пишет в чат — звонить незнакомцу страшно. Ждёт 40 минут. Нет индикатора «онлайн». Нервничает. Продавец отвечает: «Да, доставка 350 ₽».</div>
+        <span class="sb-tag t-fr">Нет статуса ответа</span>
+      </div>
+    </div>
+
+    <!-- Frame 6 -->
+    <div class="sb-frame">
+      <div class="sb-scene">
+        <svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
+          <!-- payment form screen -->
+          <rect x="25" y="8" width="150" height="114" rx="6" fill="#444441" opacity=".85"/>
+          <rect x="29" y="12" width="142" height="106" rx="4" fill="#FFFFFF"/>
+          <!-- card form -->
+          <rect x="34" y="18" width="132" height="60" rx="4" fill="#F1EFE8"/>
+          <text x="42" y="32" font-size="8" fill="#5A5955" font-family="Arial">Номер карты</text>
+          <rect x="42" y="35" width="116" height="12" rx="3" fill="#FFFFFF" stroke="#D3D1C7" stroke-width=".8"/>
+          <text x="42" y="55" font-size="8" fill="#5A5955" font-family="Arial">CVV</text>
+          <rect x="42" y="58" width="40" height="12" rx="3" fill="#FFFFFF" stroke="#D3D1C7" stroke-width=".8"/>
+          <!-- total -->
+          <text x="34" y="88" font-size="8" fill="#5A5955" font-family="Arial">К оплате:</text>
+          <text x="34" y="98" font-size="11" fill="#1C1B18" font-family="Arial" font-weight="bold">6 850 ₽</text>
+          <!-- warning icon -->
+          <polygon points="170,65 185,90 155,90" fill="#FAEEDA" stroke="#F0C4B4" stroke-width="1"/>
+          <text x="168" y="82" font-size="11" fill="#8B3218" font-family="Arial" font-weight="bold">!</text>
+          <!-- cross/close attempt -->
+          <line x1="155" y1="18" x2="170" y2="33" stroke="#E24B4A" stroke-width="2" stroke-linecap="round"/>
+          <line x1="170" y1="18" x2="155" y2="33" stroke="#E24B4A" stroke-width="2" stroke-linecap="round"/>
+          <text x="147" y="45" font-size="6.5" fill="#E24B4A" font-family="Arial">Закрыла!</text>
+        </svg>
+      </div>
+      <div class="sb-body">
+        <div class="sb-step">Кадр 6</div>
+        <div class="sb-action">Форма оплаты — закрывает со страхом</div>
+        <div class="sb-caption">Видит форму карты без объяснения, что деньги замораживаются. Закрывает. Муж объясняет про эскроу. Возвращается и вводит данные.</div>
+        <span class="sb-tag t-fr">Пик тревоги</span>
+      </div>
+    </div>
+
+    <!-- Frame 7 -->
+    <div class="sb-frame">
+      <div class="sb-scene">
+        <svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
+          <!-- phone with SMS -->
+          <rect x="70" y="10" width="60" height="100" rx="10" fill="#444441" opacity=".9"/>
+          <rect x="74" y="18" width="52" height="80" rx="4" fill="#FFFFFF"/>
+          <!-- SMS content -->
+          <rect x="77" y="22" width="46" height="34" rx="4" fill="#E8F5EC" stroke="#B6DFC0" stroke-width=".8"/>
+          <text x="81" y="33" font-size="6" fill="#1E6B32" font-family="Arial" font-weight="bold">Авито</text>
+          <text x="81" y="42" font-size="6" fill="#1E6B32" font-family="Arial">Заказ №8847</text>
+          <text x="81" y="51" font-size="6" fill="#1E6B32" font-family="Arial">принят!</text>
+          <!-- notepad with order number written down -->
+          <rect x="130" y="55" width="55" height="40" rx="3" fill="#FAEEDA" stroke="#F5C87A" stroke-width=".8"/>
+          <line x1="135" y1="64" x2="180" y2="64" stroke="#F5C87A" stroke-width=".7"/>
+          <line x1="135" y1="73" x2="180" y2="73" stroke="#F5C87A" stroke-width=".7"/>
+          <line x1="135" y1="82" x2="165" y2="82" stroke="#F5C87A" stroke-width=".7"/>
+          <text x="137" y="71" font-size="7" fill="#7A4808" font-family="Arial">№ 8847</text>
+          <!-- pencil -->
+          <rect x="174" y="55" width="4" height="18" rx="1" fill="#888780" transform="rotate(20,176,64)"/>
+          <!-- relief expression -->
+          <circle cx="30" cy="55" r="18" fill="#E8F5EC" stroke="#B6DFC0" stroke-width=".8"/>
+          <path d="M22 58 Q30 65 38 58" fill="none" stroke="#1E6B32" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="26" cy="52" r="2" fill="#1E6B32"/>
+          <circle cx="34" cy="52" r="2" fill="#1E6B32"/>
+        </svg>
+      </div>
+      <div class="sb-body">
+        <div class="sb-step">Кадр 7</div>
+        <div class="sb-action">SMS с номером заказа — облегчение</div>
+        <div class="sb-caption">Оплата прошла. SMS: «Заказ №8847 принят». Светлана записывает номер на бумаге. Это первый момент, когда она чувствует контроль.</div>
+        <span class="sb-tag t-ok">Спокойствие</span>
+      </div>
+    </div>
+
+    <!-- Frame 8 -->
+    <div class="sb-frame">
+      <div class="sb-scene">
+        <svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
+          <!-- door open -->
+          <rect x="60" y="20" width="50" height="90" rx="3" fill="#E8E7E0" stroke="#D3D1C7" stroke-width="1"/>
+          <rect x="60" y="20" width="50" height="90" rx="3" fill="none" stroke="#D3D1C7" stroke-width="1"/>
+          <path d="M60 20 Q40 30 38 65 Q40 100 60 110" fill="#D3D1C7" stroke="#B4B2A9" stroke-width=".8"/>
+          <!-- washer on dolly -->
+          <rect x="120" y="55" width="48" height="48" rx="4" fill="#5A5955"/>
+          <circle cx="144" cy="79" r="16" fill="#888780"/>
+          <circle cx="144" cy="79" r="10" fill="#5A5955"/>
+          <circle cx="144" cy="79" r="4" fill="#B4B2A9"/>
+          <rect x="116" y="100" width="56" height="6" rx="3" fill="#444441"/>
+          <circle cx="124" cy="110" r="5" fill="#888780"/>
+          <circle cx="164" cy="110" r="5" fill="#888780"/>
+          <!-- courier silhouette -->
+          <circle cx="170" cy="48" r="8" fill="#B4B2A9"/>
+          <path d="M162 64 Q163 56 170 56 Q177 56 178 64 L180 100" fill="#B4B2A9"/>
+          <!-- checkmark bubble -->
+          <circle cx="40" cy="30" r="16" fill="#E8F5EC" stroke="#B6DFC0" stroke-width=".8"/>
+          <path d="M32 30 L38 37 L50 22" fill="none" stroke="#1E6B32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="sb-body">
+        <div class="sb-step">Кадр 8</div>
+        <div class="sb-action">Машина привезена — «Справилась!»</div>
+        <div class="sb-caption">Курьер привозит и заносит машину. Светлана подтверждает получение в приложении. Деньги уходят продавцу. Чувство гордости и облегчения.</div>
+        <span class="sb-tag t-ok">Успех сценария</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sb-meta">
+    <div class="sb-meta-item">
+      <div class="smi-lbl">Персонаж</div>
+      <div class="smi-val">Светлана Новикова · 54 года · Краснодар · Планшет</div>
+    </div>
+    <div class="sb-meta-item">
+      <div class="smi-lbl">Сценарий</div>
+      <div class="smi-val">Первая крупная покупка б/у техники с доставкой без встречи с продавцом</div>
+    </div>
+    <div class="sb-meta-item">
+      <div class="smi-lbl">Главный инсайт</div>
+      <div class="smi-val">Пик тревоги — форма оплаты без объяснения эскроу. SMS с номером = ключевой момент доверия.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ CJM ═══════════ -->
+<div id="cjm" class="hidden">
+  <div class="sec-head">
+    <span class="sec-num">02</span>
+    <span class="sec-title">Карта путешествия пользователя</span>
+  </div>
+  <p class="sec-def">Customer Journey Map по методологии NN/g — фиксирует действия, мысли, эмоции, точки трения и возможности для улучшения на каждом этапе взаимодействия. Горизонталь = этапы; вертикаль = слои опыта.</p>
+
+  <div class="cjm-wrap">
+  <table class="cjm-table">
+    <colgroup>
+      <col class="col-label">
+      <col class="col-stage"><col class="col-stage"><col class="col-stage">
+      <col class="col-stage"><col class="col-stage"><col class="col-stage">
+      <col class="col-stage">
+    </colgroup>
+    <thead>
+      <tr>
+        <th class="row-label" style="border-radius:var(--r-sm) 0 0 0">Слой</th>
+        <th class="stage-header"><span class="stage-num">01</span>Осознание потребности</th>
+        <th class="stage-header"><span class="stage-num">02</span>Поиск и фильтрация</th>
+        <th class="stage-header"><span class="stage-num">03</span>Выбор объявления</th>
+        <th class="stage-header"><span class="stage-num">04</span>Контакт с продавцом</th>
+        <th class="stage-header"><span class="stage-num">05</span>Оплата</th>
+        <th class="stage-header"><span class="stage-num">06</span>Ожидание доставки</th>
+        <th class="stage-header" style="border-radius:0 var(--r-sm) 0 0"><span class="stage-num">07</span>Получение товара</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <!-- ДЕЙСТВИЯ -->
+      <tr>
+        <td class="row-label">Действия</td>
+        <td class="cjm-cell"><p>Замечает поломку машины</p><p>Звонит подруге за советом</p><p>Открывает Авито на планшете</p></td>
+        <td class="cjm-cell"><p>Вводит запрос полностью, без сокращений</p><p>Пугается 200+ результатов</p><p>Муж помогает настроить фильтры</p></td>
+        <td class="cjm-cell"><p>Листает превью</p><p>Замечает значок «Авито Доставка»</p><p>Открывает объявление Indesit</p><p>Читает все 12 отзывов</p></td>
+        <td class="cjm-cell"><p>Пишет в чат (звонить не хочет)</p><p>Ждёт 40 минут</p><p>Получает подтверждение: «Да, 350 ₽»</p></td>
+        <td class="cjm-cell"><p>Нажимает «Купить с доставкой»</p><p>Видит форму карты</p><p>Закрывает страницу</p><p>Муж объясняет эскроу</p><p>Возвращается, вводит карту</p></td>
+        <td class="cjm-cell"><p>Получает SMS с номером заказа</p><p>Записывает номер на бумаге</p><p>Ждёт звонка курьера</p><p>Записывает окно доставки в ежедневник</p></td>
+        <td class="cjm-cell"><p>Встречает курьера</p><p>Нажимает «Подтвердить получение»</p><p>Отвечает «Да» на вопрос о соответствии</p><p>Пишет развёрнутый отзыв</p></td>
+      </tr>
+
+      <!-- МЫСЛИ -->
+      <tr>
+        <td class="row-label">Мысли и ожидания</td>
+        <td class="cjm-cell"><p>«Авито — как газета объявлений в телефоне»</p><p>«Подруга не обманывала»</p></td>
+        <td class="cjm-cell"><p>«Почему их так много? Как выбрать?»</p><p>«Хорошо, что муж рядом»</p></td>
+        <td class="cjm-cell"><p>«Значок доставки = значит надёжный продавец»</p><p>«Один плохой отзыв — это нормально?»</p></td>
+        <td class="cjm-cell"><p>«Вдруг уже продал пока я жду?»</p><p>«Он онлайн вообще?»</p></td>
+        <td class="cjm-cell"><p>«А вдруг карту взломают?»</p><p>«Авито же большая компания — наверное безопасно»</p></td>
+        <td class="cjm-cell"><p>«Есть номер заказа — значит всё официально»</p><p>«Когда позвонит курьер?»</p></td>
+        <td class="cjm-cell"><p>«Справилась сама!»</p><p>«Надо рассказать Тамаре»</p></td>
+      </tr>
+
+      <!-- ЭМОЦИИ (dots) -->
+      <tr>
+        <td class="row-label">Эмоция</td>
+        <td class="emo-cell"><div class="emo-dot" style="background:#EF9F27"></div><div class="emo-label">Надежда</div></td>
+        <td class="emo-cell"><div class="emo-dot" style="background:#E24B4A"></div><div class="emo-label">Тревога</div></td>
+        <td class="emo-cell"><div class="emo-dot" style="background:#BA7517"></div><div class="emo-label">Осторожность</div></td>
+        <td class="emo-cell"><div class="emo-dot" style="background:#E24B4A"></div><div class="emo-label">Беспокойство</div></td>
+        <td class="emo-cell"><div class="emo-dot" style="background:#A32D2D"></div><div class="emo-label">Страх</div></td>
+        <td class="emo-cell"><div class="emo-dot" style="background:#639922"></div><div class="emo-label">Облегчение</div></td>
+        <td class="emo-cell"><div class="emo-dot" style="background:#1D9E75"></div><div class="emo-label">Гордость</div></td>
+      </tr>
+
+      <!-- TOUCHPOINTS -->
+      <tr>
+        <td class="row-label">Точки контакта</td>
+        <td class="cjm-cell"><p>Рекомендация подруги</p><p>Главная страница Авито</p></td>
+        <td class="cjm-cell"><p>Строка поиска</p><p>Панель фильтров</p><p>Список результатов</p></td>
+        <td class="cjm-cell"><p>Карточка объявления</p><p>Значок «Авито Доставка»</p><p>Раздел отзывов</p><p>Профиль продавца</p></td>
+        <td class="cjm-cell"><p>Чат Авито</p><p>Индикатор статуса продавца</p></td>
+        <td class="cjm-cell"><p>Кнопка «Купить с доставкой»</p><p>Экран оплаты</p><p>Форма ввода карты</p></td>
+        <td class="cjm-cell"><p>SMS/Push-уведомление</p><p>Звонок курьера</p><p>Трекинг заказа</p></td>
+        <td class="cjm-cell"><p>Курьер</p><p>Экран «Подтвердить получение»</p><p>Форма отзыва</p></td>
+      </tr>
+
+      <!-- БОЛИ -->
+      <tr>
+        <td class="row-label" style="background:var(--red-bg);color:var(--red-fg)">Точки трения</td>
+        <td class="pain-cell">&mdash;</td>
+        <td class="pain-cell"><strong>Фильтры мелкие на планшете</strong>Необходима прокрутка, кнопки не рассчитаны на крупный палец</td>
+        <td class="pain-cell"><strong>Ложная семантика значка</strong>«Авито Доставка» воспринимается как знак надёжности продавца, а не как логистика</td>
+        <td class="pain-cell"><strong>Нет индикатора «онлайн»</strong>40 минут ожидания без понимания, читает ли продавец сообщение</td>
+        <td class="pain-cell"><strong>Форма оплаты без контекста</strong>Нет объяснения механизма эскроу до момента ввода карты — пик страха</td>
+        <td class="pain-cell"><strong>Неизвестное время доставки</strong>После оплаты нет точного окна — тревожное ожидание звонка курьера</td>
+        <td class="pain-cell">&mdash;</td>
+      </tr>
+
+      <!-- ВОЗМОЖНОСТИ -->
+      <tr>
+        <td class="row-label" style="background:var(--green-bg);color:var(--green-fg);border-radius:0 0 0 var(--r-sm)">Возможности</td>
+        <td class="opp-cell">&mdash;</td>
+        <td class="opp-cell"><strong>Адаптивные фильтры</strong>Увеличенные touch-targets для планшетов, «умный» первый фильтр по городу</td>
+        <td class="opp-cell"><strong>Разделить значки</strong>Отдельный значок «Проверенный продавец» vs «Доставка» с tooltip-объяснением</td>
+        <td class="opp-cell"><strong>Статус активности</strong>«Обычно отвечает за 15 минут» — снять тревогу ожидания</td>
+        <td class="opp-cell"><strong>Объяснение эскроу до оплаты</strong>Баннер «Ваши деньги в безопасности: мы держим их до получения» перед формой</td>
+        <td class="opp-cell"><strong>Трекинг с чёткими статусами</strong>Timeline: Упакован → Передан курьеру → В пути → Доставлен</td>
+        <td class="opp-cell" style="border-radius:0 0 var(--r-sm) 0"><strong>Поделиться отзывом</strong>Кнопка «Рассказать подруге» — встроенный вирусный механизм для этой аудитории</td>
+      </tr>
+
+    </tbody>
+  </table>
+  </div>
+
+  <!-- EMOTION CURVE -->
+  <div class="curve-wrap">
+    <div class="curve-lbl">Кривая эмоций по этапам</div>
+    <svg class="curve-svg" viewBox="0 0 860 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <defs>
+        <marker id="carr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+      <!-- axes -->
+      <line x1="10" y1="75" x2="850" y2="75" stroke="#D3D1C7" stroke-width="1" marker-end="url(#carr)"/>
+      <line x1="10" y1="75" x2="10" y2="5" stroke="#D3D1C7" stroke-width="1" marker-end="url(#carr)"/>
+      <!-- y labels -->
+      <text x="14" y="12" font-size="9" fill="#9A9890" font-family="Arial">+</text>
+      <text x="14" y="77" font-size="9" fill="#9A9890" font-family="Arial">−</text>
+      <!-- stage x positions: 120 200 320 440 560 680 800 -->
+      <!-- points: neutral=38, slight-pos=25, cautious=45, anxious=55, peak-fear=65, relief=30, joy=10 -->
+      <polyline
+        points="120,38 200,55 320,45 440,58 560,65 680,28 800,10"
+        fill="none" stroke="#185FA5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+        stroke-dasharray="0"/>
+      <!-- dots -->
+      <circle cx="120" cy="38" r="4" fill="#EF9F27"/>
+      <circle cx="200" cy="55" r="4" fill="#E24B4A"/>
+      <circle cx="320" cy="45" r="4" fill="#BA7517"/>
+      <circle cx="440" cy="58" r="4" fill="#E24B4A"/>
+      <circle cx="560" cy="65" r="5" fill="#A32D2D"/>
+      <circle cx="680" cy="28" r="4" fill="#639922"/>
+      <circle cx="800" cy="10" r="5" fill="#1D9E75"/>
+      <!-- stage labels -->
+      <text x="92" y="72" font-size="8" fill="#9A9890" font-family="Arial" text-anchor="middle">01</text>
+      <text x="200" y="72" font-size="8" fill="#9A9890" font-family="Arial" text-anchor="middle">02</text>
+      <text x="320" y="72" font-size="8" fill="#9A9890" font-family="Arial" text-anchor="middle">03</text>
+      <text x="440" y="72" font-size="8" fill="#9A9890" font-family="Arial" text-anchor="middle">04</text>
+      <text x="560" y="72" font-size="8" fill="#9A9890" font-family="Arial" text-anchor="middle">05</text>
+      <text x="680" y="72" font-size="8" fill="#9A9890" font-family="Arial" text-anchor="middle">06</text>
+      <text x="800" y="72" font-size="8" fill="#9A9890" font-family="Arial" text-anchor="middle">07</text>
+      <!-- peak annotation -->
+      <line x1="560" y1="60" x2="590" y2="45" stroke="#A32D2D" stroke-width=".8" stroke-dasharray="3,2"/>
+      <text x="592" y="43" font-size="8" fill="#A32D2D" font-family="Arial">Пик страха</text>
+    </svg>
+    <div class="legend">
+      <div class="leg-item"><div class="leg-dot" style="background:#EF9F27"></div>Надежда</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#E24B4A"></div>Тревога</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#A32D2D"></div>Страх (форма оплаты)</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#639922"></div>Облегчение (SMS)</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#1D9E75"></div>Гордость (получение)</div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+function showPage(id){
+  ['sb','cjm'].forEach(s=>document.getElementById(s).classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+  document.querySelectorAll('.pnav-btn').forEach((b,i)=>{
+    b.classList.toggle('on',['sb','cjm'][i]===id);
+  });
+}
+</script>
+</body>
+</html>
